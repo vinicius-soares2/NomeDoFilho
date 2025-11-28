@@ -3,137 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Qual o Nome do Filho de Vocês? 👶💕</title>
-    <meta property="og:title" content="Descobri o nome do filho do meu crush 😂">
-    <meta property="og:description" content="Coloca o nome de vocês dois e vê qual vai ser o nome do bebê kkkkk">
-    <meta property="og:image" content="https://i.ibb.co.com/nj3Y8nB/bebe-zoeiro.png">
+    <title>Nome do Filho - Viral do Momento</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
-        body { 
-            font-family: 'Fredoka One', cursive; 
-            text-align: center; 
-            padding: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            margin: 0;
-            min-height: 100vh;
-        }
-        .container { max-width: 500px; margin: 0 auto; padding: 20px; }
-        input { 
-            padding: 15px; 
-            margin: 10px; 
-            width: 80%; 
-            border: none; 
-            border-radius: 15px; 
-            font-size: 18px; 
-            text-align: center;
-        }
-        button { 
-            padding: 15px 40px; 
-            background: #ff6b6b; 
-            color: white; 
-            border: none; 
-            cursor: pointer; 
-            font-size: 20px; 
-            border-radius: 50px; 
-            margin: 20px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-        }
-        #resultado { 
-            margin-top: 30px; 
-            font-size: 28px; 
-            opacity: 0;
-            transition: all 1s;
-        }
-        .bebe { font-size: 80px; animation: pula 2s infinite; }
-        @keyframes pula { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
-        .contador { margin: 30px; font-size: 18px; }
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Comic+Neue:wght@700&display=swap');
+        body{margin:0;font-family:'Comic Neue',cursive;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;text-align:center;min-height:100vh;padding:20px 0;}
+        .container{max-width:420px;margin:auto;padding:20px;}
+        h1{font-family:'Fredoka One';font-size:42px;text-shadow:3px 3px #00000060;}
+        input,select{width:88%;padding:16px;margin:12px;border:none;border-radius:20px;font-size:18px;text-align:center;}
+        button{padding:18px 50px;margin:15px;border:none;border-radius:50px;font-size:22px;cursor:pointer;box-shadow:0 10px 30px #00000060;}
+        .gerar{background:#ff6b6b;color:#fff;}
+        .stories{background:#E4405F;color:#fff;}
+        .tiktok{background:#000;color:#fff;border:4px solid #00f2ea !important;box-shadow:0 0 20px #00f2ea80 !important;}
+        .whatsapp{background:#25D366;color:#fff;}
+        .tema{background:#fff3;padding:10px 15px;font-size:14px;}
+        #resultado{opacity:0;transition:all 1s;margin:40px 0;font-size:28px;}
+        .bebe{font-size:110px;animation:pula 1.5s infinite;}
+        @keyframes pula{0%,100%{transform:translateY(0)}50%{transform:translateY(-25px)}}
+        .contador{font-size:24px;margin:30px;font-weight:bold;}
+        canvas{display:none;}
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>💕 QUAL VAI SER O NOME DO FILHO(A) DE VOCÊS? 👶</h1>
-        
-        <input type=" *text" id="nome1" placeholder="Nome do crush / namorado(a)">
-        <input type="text" id="nome2" placeholder="Seu nome mara">
-        
-        <p>Gênero do bebê:</p>
-        <select id="genero">
-            <option value="aleatorio">Aleatório</option>
-            <option value="menino">Menino 👦</option>
-            <option value="menina">Menina 👧</option>
-        </select>
-        <br><br>
-        <button onclick="gerarComDrama()">REVELAR NOME DO BEBÊ 🎉</button>
-        
-        <div id="resultado"></div>
-        <div class="contador">Já <span id="contador">0</span> casais descobriram o nome do filho hoje!</div>
-    </div>
+<div class="container">
+    <h1>Qual o Nome do Filho?</h1>
+    
+    <input type="text" id="nome1" placeholder="Nome do crush">
+    <input type="text" id="nome2" placeholder="Seu nome">
+    
+    <select id="genero">
+        <option value="aleatorio">Aleatório</option>
+        <option value="menino">Menino</option>
+        <option value="menina">Menina</option>
+    </select><br>
 
-    <audio id="somBebe" src="https://assets.mixkit.co/sfx/preview/mixkit-baby-very-funny-laugh-441.mp3"></audio>
-    <audio id="somDrama" src="https://assets.mixkit.co/sfx/preview/mixkit-dramatic-violin-violin-456.mp3"></audio>
+    <button class="gerar" onclick="gerar()">REVELAR O BEBÊ</button><br>
+    <button class="tema" onclick="document.body.style.background='linear-gradient(135deg,#1a1a2e,#16213e)'">Dark</button>
+    <button class="tema" onclick="document.body.style.background='linear-gradient(135deg,#ff9a9e,#fad0c4)'">Rosa</button>
 
-    <script>
-        let totalGerados = localStorage.getItem('totalGerados') || 0;
-        document.getElementById('contador').innerText = totalGerados;
+    <div id="resultado"></div>
+    
+    <div class="contador">Já <b id="contador">0</b> bebês gerados hoje!</div>
+</div>
 
-        const nomesMenino = ["Maikol", "Wesleyfer", "Djaylson", "Kauê", "Brayan", "Thallyson", "Rian", "Kevillyn", "Jhonathan", "Matheus Henrique", "Enzo Gabriel", "Ryan Pietro"];
-        const nomesMenina = ["Laysllane", "Sthefany", "Jhenyfer", "Kellen", "Mhayconn", "Bruna Travassos", "Maite", "Maria Alice", "Valentina", "Isis Valverde", "Heloísa"];
-        
-        function gerarComDrama() {
-            document.getElementById('somDrama').play();
-            document.getElementById('resultado').innerHTML = "<br><br><br>Calculando o DNA do amor... 💞<br><br>Carregando 99%...";
-            document.getElementById('resultado').style.opacity = 1;
-            
-            setTimeout(() => {
-                let nome1 = document.getElementById("nome1").value.trim();
-                let nome2 = document.getElementById("nome2").value.trim();
-                let genero = document.getElementById("genero").value;
-                
-                if (!nome1 || !nome2) {
-                    document.getElementById('resultado').innerHTML = "PREENCHE OS NOMES DIREITO SEU TROGLODITA 😂";
-                    return;
-                }
+<canvas id="canvas" width="1080" height="1920"></canvas>
 
-                // Gera nome misturado
-                let parte1 = nome1.substring(0, Math.max(2, Math.floor(nome1.length / 2)));
-                let parte2 = nome2.substring(Math.floor(nome2.length / 2));
-                let filho = (parte1 + parte2).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-                filho = filho.charAt(0).toUpperCase() + filho.slice(1).replace(/[^a-zA-Z]/g, '');
+<audio id="drama" src="https://assets.mixkit.co/sfx/preview/mixkit-dramatic-violin-violin-456.mp3"></audio>
+<audio id="risada" src="https://assets.mixkit.co/sfx/preview/mixkit-baby-laughing-happily-442.mp3"></audio>
 
-                // Se ficou feio, joga um nome da lista
-                if (filho.length < 4 || Math.random() < 0.6) {
-                    if (genero === "menino" || (genero === "aleatorio" && Math.random() > 0.5)) {
-                        filho = nomesMenino[Math.floor(Math.random() * nomesMenino.length)];
-                    } else {
-                        filho = nomesMenina[Math.floor(Math.random() * nomesMenina.length)];
-                    }
-                }
+<script>
+    const menino = ["Maikol","Wesleyfer","Djaylson","Kauã","Brayan","Thallyson","Enzo Gabriel","Ryan Pietro","Kevillyn","Jhonathan","McKevin"];
+    const menina = ["Laysllane","Sthefany","Jhenyfer","Mhayconn","Maite","Heloísa","Valentina","Maria Alice","Isabella","Ana Julia","Mhayara"];
+    
+    let total = parseInt(localStorage.getItem('total')||'0') + Math.floor(Math.random()*8137);
+    document.getElementById('contador').innerText = total.toLocaleString('pt-BR');
 
-                // Atualiza contador
-                totalGerados++;
-                localStorage.setItem('totalGerados', totalGerados);
-                document.getElementById('contador').innerText = totalGerados;
+    function gerar(){
+        document.getElementById('drama').play();
+        document.getElementById('resultado').style.opacity=1;
+        document.getElementById('resultado').innerHTML = "<div class='bebe'>Gerando bebê...</div><br>Cruzando DNA...";
 
-                document.getElementById('somBebe').play();
-                document.getElementById('resultado').innerHTML = 
-                    `<div class="bebe">👶</div>
-                    <h2>O filho(a) de <br><b>${nome1}</b> e <b>${nome2}</b> vai se chamar...</h2>
-                    <h1 style="font-size: 60px; color: #fff54a; text-shadow: 4px 4px #ff6b6b;">${filho}</h1>
-                    <br>
-                    <button onclick="compartilhar()" style="background:#25D366; padding:15px 30px; font-size:18px;">
-                        📲 Mandar pro crush no WhatsApp
-                    </button><br><br>
-                    <small>fechou os olhos e já imaginou a criancinha correndo pela casa né safado(a) 😏</small>`;
-            }, 3000);
-        }
+        setTimeout(()=>{
+            let n1 = document.getElementById('nome1').value.trim();
+            let n2 = document.getElementById('nome2').value.trim();
+            let gen = document.getElementById('genero').value;
+            if(!n1||!n2){alert("Preenche os dois nomes, seu animal kkkk");return;}
 
-        function compartilhar() {
-            let nome1 = document.getElementById("nome1").value || "fulano";
-            let nome2 = document.getElementById("nome2").value || "fulana";
-            let texto = `Olha o nome do nosso filho(a) ${nome1} 💕\n\nAdivinha só: vai se chamar ${document.querySelector('#resultado h1').innerText} kkkkkkk\n\nTesta aí também: https://nomedofilho.netlify.app`;
-            window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(texto));
-        }
-    </script>
+            let nome = (Math.random()<0.75) ? 
+                (gen==="menino"|| (gen==="aleatorio"&&Math.random()>0.5) ? menino[Math.floor(Math.random()*menino.length)] : menina[Math.floor(Math.random()*menina.length)]) :
+                (n1.substring(0,Math.ceil(n1.length/2)) + n2.substring(Math.floor(n2.length/2))).replace(/[^a-zA-Z]/g,'').toLowerCase();
+            nome = nome.charAt(0).toUpperCase() + nome.slice(1);
+
+            total++; localStorage.setItem('total',total);
+            document.getElementById('contador').innerText = total.toLocaleString('pt-BR');
+            document.getElementById('risada').play();
+
+            document.getElementById('resultado').innerHTML = `
+                <div class="bebe">New Baby</div>
+                <h2>O filho de <b>${n1}</b> e <b>${n2}</b> vai se chamar...</h2>
+                <h1 style="font-size:80px;color:#ffff54;text-shadow:6px 6px #ff6b6b;margin:20px;">${nome}</h1>
+                <button class="stories" onclick="gerarStories('${nome}','${n1}','${n2}')">Postar no Stories</button>
+                <button class="tiktok" onclick="copiarTikTok('${nome}','${n1}','${n2}')">Copiar pro TikTok</button>
+                <button class="whatsapp" onclick="whatsapp('${nome}','${n1}')">WhatsApp</button>
+                <br><br>
+                <small>já imaginou esse bebê correndo pela casa né safado(a)</small>`;
+        },3200);
+    }
+
+    function gerarStories(nome, n1, n2){
+        const canvas = document.getElementById('canvas');
+        const c = canvas.getContext('2d');
+        const grad = c.createLinearGradient(0,0,0,1920);
+        grad.addColorStop(0,"#ff9a9e");
+        grad.addColorStop(1,"#fad0c4");
+        c.fillStyle = grad;
+        c.fillRect(0,0,1080,1920);
+
+        c.font = 'bold 180px "Comic Neue"';
+        c.fillStyle = '#ff6b6b';
+        c.strokeStyle = '#ffffff';
+        c.lineWidth = 12;
+        c.textAlign = 'center';
+        c.strokeText(nome,540,780);
+        c.fillText(nome,540,780);
+
+        c.font = 'bold 80px "Comic Neue"';
+        c.fillStyle = '#ffffff';
+        c.strokeText(`${n1} + ${n2}`,540,1000);
+        c.fillText(`${n1} + ${n2}`,540,1000);
+
+        c.font = '60px "Comic Neue"';
+        c.fillText("nomedofilho.netlify.app",540,1700);
+
+        const link = document.createElement('a');
+        link.download = `bebe-${nome}.png`;
+        link.href = canvas.toDataURL();
+        link.click();
+        alert("Imagem salva! Abre Instagram/TikTok → Stories → cola e marca geral");
+    }
+
+    function copiarTikTok(nome,n1,n2){
+        const texto = `EU E ${n1.toUpperCase()} VAMOS TER UM FILHO(A) E O NOME VAI SER:\n\n${nome}\n\nQuem vocês acham que sai?\n\nTesta aí: nomedofilho.netlify.app`;
+        navigator.clipboard.writeText(texto);
+        alert("Texto copiado pro TikTok! Só cola e bota uma música de casal");
+    }
+
+    function whatsapp(nome,n1){
+        const texto = `Olha o nome do filho que eu e ${n1} vamos ter:\n\n${nome}\n\nTesta também: https://nomedofilho.netlify.app`;
+        open('https://api.whatsapp.com/send?text='+encodeURIComponent(texto));
+    }
+</script>
 </body>
 </html>
