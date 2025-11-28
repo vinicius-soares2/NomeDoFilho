@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qual o Nome do Filho de Vocês? 👶💕</title>
+    <meta property="og:title" content="Descobri o nome do filho do meu crush 😂">
+    <meta property="og:description" content="Coloca o nome de vocês dois e vê qual vai ser o nome do bebê kkkkk">
+    <meta property="og:image" content="https://i.ibb.co.com/nj3Y8nB/bebe-zoeiro.png">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+        body { 
+            font-family: 'Fredoka One', cursive; 
+            text-align: center; 
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin: 0;
+            min-height: 100vh;
+        }
+        .container { max-width: 500px; margin: 0 auto; padding: 20px; }
+        input { 
+            padding: 15px; 
+            margin: 10px; 
+            width: 80%; 
+            border: none; 
+            border-radius: 15px; 
+            font-size: 18px; 
+            text-align: center;
+        }
+        button { 
+            padding: 15px 40px; 
+            background: #ff6b6b; 
+            color: white; 
+            border: none; 
+            cursor: pointer; 
+            font-size: 20px; 
+            border-radius: 50px; 
+            margin: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        #resultado { 
+            margin-top: 30px; 
+            font-size: 28px; 
+            opacity: 0;
+            transition: all 1s;
+        }
+        .bebe { font-size: 80px; animation: pula 2s infinite; }
+        @keyframes pula { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+        .contador { margin: 30px; font-size: 18px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💕 QUAL VAI SER O NOME DO FILHO(A) DE VOCÊS? 👶</h1>
+        
+        <input type=" *text" id="nome1" placeholder="Nome do crush / namorado(a)">
+        <input type="text" id="nome2" placeholder="Seu nome mara">
+        
+        <p>Gênero do bebê:</p>
+        <select id="genero">
+            <option value="aleatorio">Aleatório</option>
+            <option value="menino">Menino 👦</option>
+            <option value="menina">Menina 👧</option>
+        </select>
+        <br><br>
+        <button onclick="gerarComDrama()">REVELAR NOME DO BEBÊ 🎉</button>
+        
+        <div id="resultado"></div>
+        <div class="contador">Já <span id="contador">0</span> casais descobriram o nome do filho hoje!</div>
+    </div>
+
+    <audio id="somBebe" src="https://assets.mixkit.co/sfx/preview/mixkit-baby-very-funny-laugh-441.mp3"></audio>
+    <audio id="somDrama" src="https://assets.mixkit.co/sfx/preview/mixkit-dramatic-violin-violin-456.mp3"></audio>
+
+    <script>
+        let totalGerados = localStorage.getItem('totalGerados') || 0;
+        document.getElementById('contador').innerText = totalGerados;
+
+        const nomesMenino = ["Maikol", "Wesleyfer", "Djaylson", "Kauê", "Brayan", "Thallyson", "Rian", "Kevillyn", "Jhonathan", "Matheus Henrique", "Enzo Gabriel", "Ryan Pietro"];
+        const nomesMenina = ["Laysllane", "Sthefany", "Jhenyfer", "Kellen", "Mhayconn", "Bruna Travassos", "Maite", "Maria Alice", "Valentina", "Isis Valverde", "Heloísa"];
+        
+        function gerarComDrama() {
+            document.getElementById('somDrama').play();
+            document.getElementById('resultado').innerHTML = "<br><br><br>Calculando o DNA do amor... 💞<br><br>Carregando 99%...";
+            document.getElementById('resultado').style.opacity = 1;
+            
+            setTimeout(() => {
+                let nome1 = document.getElementById("nome1").value.trim();
+                let nome2 = document.getElementById("nome2").value.trim();
+                let genero = document.getElementById("genero").value;
+                
+                if (!nome1 || !nome2) {
+                    document.getElementById('resultado').innerHTML = "PREENCHE OS NOMES DIREITO SEU TROGLODITA 😂";
+                    return;
+                }
+
+                // Gera nome misturado
+                let parte1 = nome1.substring(0, Math.max(2, Math.floor(nome1.length / 2)));
+                let parte2 = nome2.substring(Math.floor(nome2.length / 2));
+                let filho = (parte1 + parte2).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+                filho = filho.charAt(0).toUpperCase() + filho.slice(1).replace(/[^a-zA-Z]/g, '');
+
+                // Se ficou feio, joga um nome da lista
+                if (filho.length < 4 || Math.random() < 0.6) {
+                    if (genero === "menino" || (genero === "aleatorio" && Math.random() > 0.5)) {
+                        filho = nomesMenino[Math.floor(Math.random() * nomesMenino.length)];
+                    } else {
+                        filho = nomesMenina[Math.floor(Math.random() * nomesMenina.length)];
+                    }
+                }
+
+                // Atualiza contador
+                totalGerados++;
+                localStorage.setItem('totalGerados', totalGerados);
+                document.getElementById('contador').innerText = totalGerados;
+
+                document.getElementById('somBebe').play();
+                document.getElementById('resultado').innerHTML = 
+                    `<div class="bebe">👶</div>
+                    <h2>O filho(a) de <br><b>${nome1}</b> e <b>${nome2}</b> vai se chamar...</h2>
+                    <h1 style="font-size: 60px; color: #fff54a; text-shadow: 4px 4px #ff6b6b;">${filho}</h1>
+                    <br>
+                    <button onclick="compartilhar()" style="background:#25D366; padding:15px 30px; font-size:18px;">
+                        📲 Mandar pro crush no WhatsApp
+                    </button><br><br>
+                    <small>fechou os olhos e já imaginou a criancinha correndo pela casa né safado(a) 😏</small>`;
+            }, 3000);
+        }
+
+        function compartilhar() {
+            let nome1 = document.getElementById("nome1").value || "fulano";
+            let nome2 = document.getElementById("nome2").value || "fulana";
+            let texto = `Olha o nome do nosso filho(a) ${nome1} 💕\n\nAdivinha só: vai se chamar ${document.querySelector('#resultado h1').innerText} kkkkkkk\n\nTesta aí também: https://nomedofilho.netlify.app`;
+            window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(texto));
+        }
+    </script>
+</body>
+</html>
